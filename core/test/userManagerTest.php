@@ -204,7 +204,7 @@ class userManagerTest extends TestCase {
         $userManager = new userManager($dataBaseManagerMock);
         $result = $userManager ->getUser($name, $password);
 
-        $this->assertEquals("Tabla usuario vacia11", $result);
+        $this->assertEquals("Tabla usuario vacia", $result);
     }
 
     public function testUpdateUser() {
