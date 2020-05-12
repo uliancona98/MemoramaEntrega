@@ -2,7 +2,6 @@
 use PHPUnit\Framework\TestCase;
 require_once('core\php\userManager.php');
 require_once('core\php\DataBaseManager.php');
-
 class userManagerTest extends TestCase {
     private function getDataBaseManagerInsertMock($query){
         $mysqliMock = $this->createMock(mysqli::class);
