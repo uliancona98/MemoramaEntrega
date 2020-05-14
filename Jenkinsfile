@@ -1,26 +1,19 @@
-pipeline {
-    agent any
- 
-    options {
-        timeout(time: 60, unit: 'SECONDS')
-    }
+timestamps {
     
-    stages {
-        stage('Build') {
-            steps {
-                echo 'Building...'
-            }
+
+node () {
+
+	stage ('Memorama - Checkout') {
+ 	    checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'chiki1', url: 'https://github.com/chikimoco/Memorama.git']]]) 
+	}
+	stage ('Memorama - Build') {
+ 		environment {
+            PATH = PATH + ";C:\\Windows\\System32\\"
         }
-        stage('Test') {
-            steps {
-                sh 'make check || true' 
-                junit '**/target/*.xml'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying...'
-            }
-        }
-    }
+        bat label: '', script: '''phpunit core/test/'''
+	}
+	stage ('Memorama - Deploy'){
+        fileOperations([fileCopyOperation(excludes: '', flattenFiles: false, includes: '**', targetLocation: 'C:\\wamp64\\www\\MemoDeploy')])
+	}
+}
 }
