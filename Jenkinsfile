@@ -4,16 +4,13 @@ timestamps {
 node () {
 
 	stage ('Memorama - Checkout') {
- 	    checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'chiki1', url: 'https://github.com/chikimoco/Memorama.git']]]) 
+ 	    checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/uliancona98/MemoramaEntrega']]]) 
 	}
 	stage ('Memorama - Build') {
- 		environment {
-            PATH = PATH + ";C:\\Windows\\System32\\"
-        }
-        bat label: '', script: '''phpunit core/test/'''
+        bat 'call vendor/bin/phpunit.bat phpunit core/test/'
 	}
 	stage ('Memorama - Deploy'){
-        fileOperations([fileCopyOperation(excludes: '', flattenFiles: false, includes: '**', targetLocation: 'C:\\wamp64\\www\\MemoDeploy')])
+        fileOperations([fileCopyOperation(excludes: '', flattenFiles: false, includes: '**', targetLocation: 'C:\\xampp\\htdocs\\MemoramaEntrega')])
 	}
 }
 }
